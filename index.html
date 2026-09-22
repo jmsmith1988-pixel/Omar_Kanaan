@@ -1,36 +1,94 @@
-<script>
-  const image = "omar.png"; 
-  const container = document.getElementById("container");
-  let isLoading = false; // Flag to prevent multiple concurrent triggers
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omar Is Everywhere</title>
+    <style>
+        body {
+            margin: 0;
+            background: white;
+            overflow-x: hidden;
+            font-family: Arial, sans-serif;
+        }
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: #5a2d91;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 32px;
+            font-weight: bold;
+        }
+        .subtitle {
+            font-size: 14px;
+            font-weight: normal;
+            opacity: .9;
+        }
+        #container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+        }
+        .omar {
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.15);
+            transition: transform .2s;
+        }
+        .omar:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
 
-  function addOmars(count = 50) {
-    isLoading = true;
-    const fragment = document.createDocumentFragment(); // Performance optimization for DOM insertion
-    
-    for (let i = 0; i < count; i++) {
-      let img = document.createElement("img");
-      const width = Math.floor(Math.random() * 350) + 75;
-      img.src = image;
-      img.className = "omar";
-      img.width = width;
-      img.loading = "lazy"; // Native lazy loading to save memory
-      fragment.appendChild(img);
-    }
-    
-    container.appendChild(fragment);
-    isLoading = false;
-  }
+    <header>
+        OMAR IS EVERYWHERE
+        <div class="subtitle">Keep scrolling. There is no end.</div>
+    </header>
 
-  // Initial load
-  addOmars(200);
+    <!-- This container was missing, which caused the script to break! -->
+    <div id="container"></div>
 
-  // Optimized scroll listener
-  window.addEventListener("scroll", () => {
-    if (isLoading) return; // Skip if we are already adding images
-    
-    if (window.scrollY + window.innerHeight > document.body.offsetHeight - 2000) {
-      addOmars(100);
-    }
-  });
-</script>
+    <script>
+        const image = "omar.png"; 
+        const container = document.getElementById("container");
+        let isLoading = false;
 
+        function addOmars(count = 50) {
+            isLoading = true;
+            const fragment = document.createDocumentFragment();
+            
+            for (let i = 0; i < count; i++) {
+                let img = document.createElement("img");
+                const width = Math.floor(Math.random() * 350) + 75;
+                img.src = image;
+                img.className = "omar";
+                img.width = width;
+                img.loading = "lazy";
+                fragment.appendChild(img);
+            }
+            
+            container.appendChild(fragment);
+            isLoading = false;
+        }
+
+        // Initial load
+        addOmars(200);
+
+        // Optimized scroll listener
+        window.addEventListener("scroll", () => {
+            if (isLoading) return;
+            
+            if (window.scrollY + window.innerHeight > document.body.offsetHeight - 2000) {
+                addOmars(100);
+            }
+        });
+    </script>
+</body>
+</html>
